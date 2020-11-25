@@ -57,7 +57,7 @@ public class BuildScript
 
 #if UNITY_EDITOR_OSX
 			outputPath += "/Package";
-			#endif
+#endif
         }
 
 

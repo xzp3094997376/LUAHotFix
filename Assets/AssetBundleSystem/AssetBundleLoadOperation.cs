@@ -3,28 +3,31 @@ using System.Collections;
 using System;
 using UnityEngine.SceneManagement;
 using System.IO;
+using UnityEditor;
+//using UnityEditor.SceneManagement;
+//using UnityEditor.SceneManagement;
 
 public abstract class AssetBundleLoadOperation : IEnumerator
 {
-	public object Current
-	{
-		get
-		{
-			return null;
-		}
-	}
-	public bool MoveNext()
-	{
-		return !IsDone();
-	}
-	
-	public void Reset()
-	{
-	}
-	
-	abstract public bool Update ();
-	
-	abstract public bool IsDone ();
+    public object Current
+    {
+        get
+        {
+            return null;
+        }
+    }
+    public bool MoveNext()
+    {
+        return !IsDone();
+    }
+
+    public void Reset()
+    {
+    }
+
+    abstract public bool Update();
+
+    abstract public bool IsDone();
 }
 
 #if UNITY_EDITOR
@@ -33,7 +36,7 @@ public class AssetBundleLoadLevelSimulationOperation : AssetBundleLoadOperation
     AsyncOperation m_Operation = null;
 
 
-    public AssetBundleLoadLevelSimulationOperation(string assetBundleName, string levelName, bool isAdditive)
+    public AssetBundleLoadLevelSimulationOperation(string assetBundleName, string levelName, bool isAdditive)//
     {
         string[] levelPaths = UnityEditor.AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName(assetBundleName, levelName);
         if (levelPaths.Length == 0)
@@ -46,9 +49,9 @@ public class AssetBundleLoadLevelSimulationOperation : AssetBundleLoadOperation
         }
 
         if (isAdditive)
-            m_Operation = UnityEditor.EditorApplication.LoadLevelAdditiveAsyncInPlayMode(levelPaths[0]);
+            m_Operation = EditorApplication.LoadLevelAdditiveAsyncInPlayMode(levelPaths[0]);
         else
-            m_Operation = UnityEditor.EditorApplication.LoadLevelAsyncInPlayMode(levelPaths[0]);
+            m_Operation = EditorApplication.LoadLevelAsyncInPlayMode(levelPaths[0]);
     }
 
     public override bool Update()
@@ -94,13 +97,13 @@ public class AssetBundleLoadLevelOperation : AssetBundleLoadOperation
 			if(m_IsAdditive)
 			{
 
-                m_Request= Application.LoadLevelAdditiveAsync(m_LevelName);
+                m_Request= SceneManager.LoadSceneAsync(m_LevelName,LoadSceneMode.Additive);
 			}
 
 			else
 			{
-                m_Request = Application.LoadLevelAsync(m_LevelName);
-			}
+                m_Request = SceneManager.LoadSceneAsync(m_LevelName, LoadSceneMode.Single);
+            }
 
 			return false;
 		}
@@ -129,7 +132,7 @@ public abstract class AssetBundleLoadAssetOperation : AssetBundleLoadOperation
 
 public class AssetBundleLoadAssetOperationSimulation : AssetBundleLoadAssetOperation
 {
-	UnityEngine.Object							m_SimulatedObject;
+	UnityEngine.Object	m_SimulatedObject;
 	
 	public AssetBundleLoadAssetOperationSimulation (UnityEngine.Object simulatedObject)
 	{
@@ -174,8 +177,7 @@ public class AssetBundleLoadAssetOperationFull : AssetBundleLoadAssetOperation
             if (string.IsNullOrEmpty(m_AssetName))
 	        {
 	            return null;
-	        }
-	            
+	        }	            
 	        else
 	        {
                
@@ -255,7 +257,7 @@ public class AssetBundleLoadManifestOperation : IEnumerator
 	public AssetBundleLoadManifestOperation ()
 	{
 	    startTime = Time.realtimeSinceStartup;
-        if (string.IsNullOrEmpty( AssetBundleManager.serverURL))
+        if (string.IsNullOrEmpty(AssetBundleManager.serverURL))
             // If we're in Editor simulation mode, we don't have to load the manifest assetBundle.
             url = AssetBundleManager.StreamingassetsURL + AssetBundleManager.GetPlatformName();
         else
@@ -336,8 +338,10 @@ public class RemoteBundleLoadManifestOperation : AssetBundleLoadManifestOperatio
     {
         url = AssetBundleManager.ServerassetsURL + AssetBundleManager.GetPlatformName();
         downloadWWW = new WWW(url);
-    }
 
+        Debug.LogError(url);
+    }
+        
     protected override void OnLoadedManifest(AssetBundleManifest manifest)
     {
         AssetBundleManager.m_RemoteBundleManifest = manifest;

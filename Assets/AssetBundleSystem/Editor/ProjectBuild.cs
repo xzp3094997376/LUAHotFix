@@ -21,6 +21,7 @@ class ProjectBuild : Editor{
 				{
 					return arg.Split("-"[0])[1];
 				}
+                Debug.Log(arg);
 			}
 			return "test";
 		}

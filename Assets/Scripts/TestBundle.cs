@@ -11,7 +11,7 @@ public class TestBundle : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        AssetBundleManager.serverURL = "http://10.1.23.21:1080/AB/";
+        AssetBundleManager.serverURL = "http://127.0.0.1:80";
         CheckData();
     }
     void CheckData()
@@ -26,21 +26,22 @@ public class TestBundle : MonoBehaviour
                 });
             }
         }
-           ));
+           )
+           );
     }
     // Update is called once per frame
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.A))
         {
-            AssetBundleManager.Instance.LoadInstance<Transform>("cb","cb1",trans=> { 
+            AssetBundleManager.Instance.LoadInstance<Transform>("cube","Cube",trans=> { 
             if(trans!=null)
                 {
                     c1 = trans.gameObject;
                     trans.SetParent(transform);
                 }
             });
-            AssetBundleManager.Instance.LoadInstance<Transform>("cb", "cb2", trans =>
+            AssetBundleManager.Instance.LoadInstance<Transform>("cube", "Cube", trans =>
             {
                 if (trans != null)
                 {
@@ -95,6 +96,7 @@ public class TestBundle : MonoBehaviour
         {
             //该函数的主要作用是查找并卸载不再使用的资源。游戏场景越复杂、资源越多，该函数的开销越大 
             Resources.UnloadUnusedAssets();
+            
         }
     }
     private void DestoryAB(GameObject go,string assetName)

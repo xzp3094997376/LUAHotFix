@@ -5,18 +5,22 @@ using System.Collections;
 public class AssetbundlesMenuItems
 {
 	const string kSimulateAssetBundlesMenu = "AssetBundles/Simulate AssetBundles";
+    static bool isChecked = false;
 
 	[MenuItem(kSimulateAssetBundlesMenu)]
 	public static void ToggleSimulateAssetBundle ()
-	{
-		AssetBundleManager.SimulateAssetBundleInEditor = !AssetBundleManager.SimulateAssetBundleInEditor;
-	}
+	{        
+        AssetBundleManager.SimulateAssetBundleInEditor = !AssetBundleManager.SimulateAssetBundleInEditor;
+        Menu.SetChecked(kSimulateAssetBundlesMenu, AssetBundleManager.SimulateAssetBundleInEditor);        
+    }
 
 	[MenuItem(kSimulateAssetBundlesMenu, true)]
 	public static bool ToggleSimulateAssetBundleValidate ()
 	{
-		Menu.SetChecked(kSimulateAssetBundlesMenu, AssetBundleManager.SimulateAssetBundleInEditor);
-		return true;
+        //Debug.Log("check menu set value1  "+(AssetBundleManager.SimulateAssetBundleInEditor).ToString());
+      
+        //Debug.Log("check menu set value2  " + (AssetBundleManager.SimulateAssetBundleInEditor).ToString());
+        return true;
 	}
 	
 	[MenuItem ("AssetBundles/Build AssetBundles")]
@@ -34,6 +38,16 @@ public class AssetbundlesMenuItems
     [MenuItem("AssetBundles/Build Player and Run")]
     static void BuildPlayerandRun()
     {
-        BuildScript.BuildPlayer(true);
+        BuildScript.BuildPlayer(true);       
+    }
+
+    [MenuItem("AssetBundles/Print Asset path")]
+    static void BuildPlayerAsset()
+    {       
+        string[] paths= AssetDatabase.GetAssetPathsFromAssetBundleAndAssetName("cube", "Cube");
+        foreach (var item in paths)
+        {
+            Debug.Log(item);
+        }
     }
 }

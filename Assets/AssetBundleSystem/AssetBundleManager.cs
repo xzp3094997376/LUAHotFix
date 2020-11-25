@@ -61,11 +61,11 @@ public class AssetBundleManager : MonoBehaviour
 
     }  
     public static readonly float TimeOut = 3.0f;
-    public static readonly int Version = 01010060;
+    public static readonly int Version = 01010050;
     public static int RemoteVersion { get; private set; }
     public const string kAssetBundlesPath = "/AssetBundles/";
     public const string versionName = "version.bundle";
-    public static string serverURL = "http://192.168.50.241:8001/AB/";
+    public static string serverURL = "http://127.0.0.1:80";
     public const string tempVersionName = "tempVersion.bundle";
 #if UNITY_EDITOR
     static int m_SimulateAssetBundleInEditor = -1;
@@ -705,7 +705,7 @@ public class AssetBundleManager : MonoBehaviour
         }
         else
         {
-            UnityEngine.Debug.Log("m_LocalBundleManifest==null");
+            UnityEngine.Debug.Log("m_LocalBundleManifest==nu    ll");
         }
 
 
@@ -731,6 +731,7 @@ public class AssetBundleManager : MonoBehaviour
         //If we're in Editor simulation mode, we don't have to load the manifest assetBundle.
         if (SimulateAssetBundleInEditor || !Application.isPlaying)
         {
+            UnityEngine.Debug.Log("editor 模拟");
             if (callback != null)
             {
                 callback(true);
@@ -761,6 +762,8 @@ public class AssetBundleManager : MonoBehaviour
             //         handleAction();
             //     }
             // );
+
+            UnityEngine.Debug.LogError("获取远程manifest失败");
 
         };
 
@@ -886,7 +889,6 @@ public class AssetBundleManager : MonoBehaviour
 
             Dictionary<string, double> diffList = CollectDiffList(persistentInfo, remoteInfo);
             int count = diffList.Count;
-
             List<string> bundls = new List<string>(diffList.Keys);
 
             double totleSize = 0;
@@ -1246,7 +1248,7 @@ public class AssetBundleManager : MonoBehaviour
         return GetPlatformFolderForAssetBundles(EditorUserBuildSettings.activeBuildTarget);
 #else
 		return GetPlatformFolderForAssetBundles(Application.platform);
-#endif
+#endif     
     }
 
     protected IEnumerator Load<T>(string assetBundleName, string assetName, Action<T> callback) where T : Object
@@ -1301,7 +1303,7 @@ public class AssetBundleManager : MonoBehaviour
         }
     }
 
-    //返回bundle的所有文件名
+    //返回bundle的所有文件名    
     public void GetBundleAssets(string assetBundleName, Action<string[]> callback)
     {
         AssetBundleLoadAssetOperation operation = null;
