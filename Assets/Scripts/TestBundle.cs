@@ -13,6 +13,10 @@ public class TestBundle : MonoBehaviour
     {
         AssetBundleManager.serverURL = "http://127.0.0.1:80";
         CheckData();
+
+       Object _obj=gameObject;
+       Transform t=_obj as Transform; 
+       Debug.Log(t);
     }
     void CheckData()
     {
