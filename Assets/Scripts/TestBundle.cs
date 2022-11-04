@@ -38,14 +38,14 @@ public class TestBundle : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.A))
         {
-            AssetBundleManager.Instance.LoadInstance<Transform>("cube","Cube",trans=> { 
+            AssetBundleManager.Instance.LoadInstance<Transform>("cube", "Assets/Prefab/Cube", trans=> { 
             if(trans!=null)
                 {
                     c1 = trans.gameObject;
                     trans.SetParent(transform);
                 }
             });
-            AssetBundleManager.Instance.LoadInstance<Transform>("cube", "Cube", trans =>
+            AssetBundleManager.Instance.LoadInstance<Transform>("cube.a", "Cube", trans =>
             {
                 if (trans != null)
                 {

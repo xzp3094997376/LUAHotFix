@@ -1,7 +1,7 @@
 ManifestFileVersion: 0
-CRC: 2782775695
+CRC: 741325501
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
-      Name: cube
+      Name: cube.a
       Dependencies: {}
